@@ -22,14 +22,18 @@ namespace Interactive_Fiction
 
             Console.ReadKey(true);
         }
-         
+
+        static int currentPage;
         static string[] story = new string[9]; 
         static bool GameOver = false; 
         static char input; //reads input for gameplay
 
         static void InitStory()
         {
-            story[0] = "Beginning of the story: Do you want to (a) jump off a bridge, or (b) jump off a building"; //start
+            char[] splitChars = { '' };
+
+            //story[0] = "You are this person in this place.;Jump off a bridge.;Jump off a building;5;10"; //start
+            story[0] = "You decide that you want to go bungie jumping.&Go bungie jumping from a building.$Go bungie jumping from a bridge+1%2"; //start
             story[1] = "you land in the water. \n(a) swim to shore. (b) swim to the bottom of the ocean";
             story[2] = "you hit the ground and die"; 
             story[3] = "you swim straight down for about 50 seconds and then it dawns on you. You're not a fish \nyou drown and die";
@@ -38,40 +42,15 @@ namespace Interactive_Fiction
             story[6] = "";
             story[7] = "";
             story[8] = "";
+
+            string[] splitPage = story[currentPage].Split(splitChars);
         }
         static void Gameplay()
         {
             if (GameOver == false)
             {
-                //choice 1
-                input = Console.ReadKey(true).KeyChar;
-                if (input == 'a' || input == 'A')
-                {
-                    //choice 2
-                    Console.WriteLine(story[1]);
-                    input = Console.ReadKey(true).KeyChar;
-                    if (input == 'a' || input == 'A')
-                    {
-                        Console.WriteLine(story[4]);
 
-                    }
-                    else if (input == 'b' || input == 'B')
-                    {
-                        Console.WriteLine(story[3]);
-                    }
-                }
-                else if (input == 'b' || input =='B')
-                {
-                    //first death 
-                    Console.WriteLine(story[2]);
-                }
-                else
-                {
-                    Console.WriteLine("Please input valid entry");
-                    Console.WriteLine(story[0]);
-                    Gameplay();
-                }
-            }
+            }            
         }
     }
 }
