@@ -16,8 +16,6 @@ namespace Interactive_Fiction
             Console.WriteLine("Interactive Fiction (select thine personal quest)");
             Console.WriteLine("---------------------------------------------------");
 
-            Console.WriteLine(story[0]);
-
             Gameplay();
 
             Console.ReadKey(true);
@@ -26,14 +24,13 @@ namespace Interactive_Fiction
         static int currentPage;
         static string[] story = new string[9]; 
         static bool GameOver = false; 
-        static char input; //reads input for gameplay
+        static string[] splitPage;
+        static char[] splitChars = { ';' };
 
         static void InitStory()
         {
-            char[] splitChars = { '' };
-
             //story[0] = "You are this person in this place.;Jump off a bridge.;Jump off a building;5;10"; //start
-            story[0] = "You decide that you want to go bungie jumping.&Go bungie jumping from a building.$Go bungie jumping from a bridge+1%2"; //start
+            story[0] = "You decide that you want to go bungie jumping.;Go bungie jumping from a building.;Go bungie jumping from a bridge;1;2"; //start
             story[1] = "you land in the water. \n(a) swim to shore. (b) swim to the bottom of the ocean";
             story[2] = "you hit the ground and die"; 
             story[3] = "you swim straight down for about 50 seconds and then it dawns on you. You're not a fish \nyou drown and die";
@@ -42,14 +39,39 @@ namespace Interactive_Fiction
             story[6] = "";
             story[7] = "";
             story[8] = "";
-
-            string[] splitPage = story[currentPage].Split(splitChars);
         }
+
+        
+
         static void Gameplay()
         {
             if (GameOver == false)
             {
+                InitStory();
+                splitPage = story[currentPage].Split(splitChars);
+                Console.WriteLine(splitPage[0]);
+                Console.WriteLine();
+                Console.WriteLine(splitPage[1]);
+                Console.WriteLine("-OR-");
+                Console.WriteLine(splitPage[2]);
 
+                //read input
+                while (Console.KeyAvailable)
+                {
+                    Console.ReadKey(true);
+                }
+                ConsoleKeyInfo input;
+                input = Console.ReadKey(true);
+
+                //check input
+                if (input.KeyChar == 'a' || input.KeyChar == 'A')
+                {
+                    currentPage = int.Parse(splitPage[3]);
+                }
+                if (input.KeyChar == 'b' || input.KeyChar == 'B')
+                {
+                    currentPage = int.Parse(splitPage[4]);
+                }
             }            
         }
     }
