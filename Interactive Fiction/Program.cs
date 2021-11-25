@@ -10,8 +10,17 @@ namespace Interactive_Fiction
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Interactive Fiction (select thine personal quest)");
-            Console.WriteLine("---------------------------------------------------");
+            Console.WriteLine("");
+            Console.WriteLine("  _____   ___  _        ___     __  ______      ______  __ __  ____  ____     ___      ____    ___  ____    _____  ___   ____    ____  _           ____   ___   __ __  ____   ____     ___  __ __ ");
+            Console.WriteLine(" / ___/  /  _]| |      /  _]   /  ]|      |    |      ||  |  ||    ||    \\   /  _]    |    \\  /  _]|    \\  / ___/ /   \\ |    \\  /    || |         |    | /   \\ |  |  ||    \\ |    \\   /  _]|  |  |");
+            Console.WriteLine("(   \\_  /  [_ | |     /  [_   /  / |      |    |      ||  |  | |  | |  _  | /  [_     |  o  )/  [_ |  D  )(   \\_ |     ||  _  ||  o  || |         |__  ||     ||  |  ||  D  )|  _  | /  [_ |  |  |");
+            Console.WriteLine(" \\__  ||    _]| |___ |    _] /  /  |_|  |_|    |_|  |_||  _  | |  | |  |  ||    _]    |   _/|    _]|    /  \\__  ||  O  ||  |  ||     || |___      __|  ||  O  ||  |  ||    / |  |  ||    _]|  ~  |");
+            Console.WriteLine(" /  \\ ||   [_ |     ||   [_ /   \\_   |  |        |  |  |  |  | |  | |  |  ||   [_     |  |  |   [_ |    \\  /  \\ ||     ||  |  ||  _  ||     |    /  |  ||     ||  :  ||    \\ |  |  ||   [_ |___, |");
+            Console.WriteLine(" \\    ||     ||     ||     |\\     |  |  |        |  |  |  |  | |  | |  |  ||     |    |  |  |     ||  .  \\ \\    ||     ||  |  ||  |  ||     |    \\  `  ||     ||     ||  .  \\|  |  ||     ||     |");
+            Console.WriteLine("  \\___||_____||_____||_____| \\____|  |__|        |__|  |__|__||____||__|__||_____|    |__|  |_____||__|\\_|  \\___| \\___/ |__|__||__|__||_____|     \\____j \\___/  \\__,_||__|\\_||__|__||_____||____/ ");
+            Console.WriteLine("");
+            Console.WriteLine("Press any key to continue");
+            Console.ReadKey(true);
             Console.WriteLine();
             Gameplay();
 
@@ -26,10 +35,10 @@ namespace Interactive_Fiction
 
         static void InitStory()
         {
-            story[0] = ";;;1;2"; 
-            story[1] = ";;;3;4";
-            story[2] = ";;;5;6"; 
-            story[3] = ";;;7;8";
+            story[0] = "You find yourself in ;;;;"; 
+            story[1] = ";;;;";
+            story[2] = ";;;;"; 
+            story[3] = ";;;;";
             story[4] = ";;;;";
             story[5] = ";;;;";
             story[6] = ";;;;";
@@ -39,7 +48,7 @@ namespace Interactive_Fiction
             story[10] = ";;;;";
             story[11] = ";;;;";
             story[12] = ";;;;";
-            story[13] = ";;;;";
+            story[13] = "";
         }
 
         static void SplitPage()
@@ -79,18 +88,18 @@ namespace Interactive_Fiction
             {
                 Console.WriteLine("please input valid character");
                 Console.WriteLine();
-                Gameplay();
             }
         }
 
         static void Gameplay()
         {
+          InitStory();
             while (GameOver == false)
             {
-                InitStory();
                 SplitPage();
                 DisplayStory();
                 TakeInput();
+                Console.Clear();
             }            
         }
     }
