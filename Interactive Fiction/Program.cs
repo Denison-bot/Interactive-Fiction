@@ -31,6 +31,7 @@ namespace Interactive_Fiction
         static bool GameOver = false; 
         static string[] splitPage;
         static char[] splitChars = { ';' };
+        int len;
 
         static void InitStory()
         {
@@ -59,14 +60,24 @@ namespace Interactive_Fiction
 
         static void DisplayStory()
         {
-            Console.WriteLine(splitPage[0]);
+            int len2 = 5;
+            int counter = 0;
+            string PageScroll = splitPage[0];
+            int len = PageScroll.Length;
+
+            for (int i = 0; i < len; i++)
+                {
+                    Console.Write(PageScroll[i]);
+                    System.Threading.Thread.Sleep(1);
+                }
+
             Console.WriteLine();
 
-            Console.WriteLine("_________________________________");
+            Console.WriteLine("_____________________________________");
             Console.WriteLine("Press A to: " + splitPage[1]);
             Console.WriteLine("-OR-");
             Console.WriteLine("Press B to: " + splitPage[2]);
-            Console.WriteLine("_________________________________");
+            Console.WriteLine("_____________________________________");
         }
 
         static void TakeInput()
