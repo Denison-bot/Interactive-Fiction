@@ -27,7 +27,7 @@ namespace Interactive_Fiction
         }
 
         static int currentPage;
-        static string[] story = new string[15]; 
+        static string[] story = new string[16]; 
         static bool GameOver = false; 
         static string[] splitPage;
         static char[] splitChars = { ';' };
@@ -45,10 +45,11 @@ namespace Interactive_Fiction
             story[8] = "Inside your quarters you find the remains of the days funeral. \n\nNearly two dozen- half devoured, half drained, and half dead funeral goers have been lazily piled on the floor of your home. \n\nYour holy place of rest has become a grotesque treasure trove of flesh. \n\nBefore your body can react to what you just witnessed, two beastly hands grab you from above, claws sinking into your throat and cheek, \nlifting you off your feet and tearing your neck. \n\nYour only shot at saving countless lives ends here.;restart;quit;0;14";
             story[9] = "\"In the Name of Jesus Christ, \nour God and Lord, \nstrengthened by the intercession of the Immaculate Virgin Mary, \nMother of God,\" \n\nThe beast recoils further, shreiking like a banshee.;continue praying;attack with stake;11;10";
             story[10] = "You make an attempt to thrust at the beast, but as soon as you lower your crucifix the monster lunges in the blink of an eye- \n\nCrushing your chest immedietly.;restart;quit;0;14";
-            story[11] = "\"We drive you from us, whoever you may be, \nunclean spirits, \nall satanic powers, \nall infernal invaders, \nall wicked legions, assemblies and sects.\" \n\nThe vampire falls on its back, writhing in pain, and lashing in every direction.;;;;";
-            story[12] = ";;;;";
+            story[11] = "\"We drive you from us, whoever you may be, \nunclean spirits, \nall satanic powers, \nall infernal invaders, \nall wicked legions, assemblies and sects.\" \n\nThe vampire falls on its back, writhing in pain, and lashing in every direction. \nIt's skin seems to smolder, and it's eyes wildly roll around in its head.;continue praying;attack with stake;15;12";
+            story[12] = "You see your window to slay the entity, and press your advantage. \nIn the blink of an eye you manage to close the gap between yourself and your foe. \n\nYou plunge your wooden stake into the chest of the beast, it's brittle rib cage collapsing in and piercing its lungs \n\nThis time there is no scream to fill the silent void in your old home;;;;";
             story[13] = "You decide a life of religion wasn't worth it anyways and abandon your community. \nOnly a month later you're found dead in the woods because you're a rube with no foraging skills and managed to poision yourself with toxic mushrooms.;restart;quit;0;14";
-            story[14] = ";;;;";
+            story[14] = ";;;;"; // death state
+            story[15] = ";;;;";
         }
 
         static void SplitPage()
@@ -82,12 +83,12 @@ namespace Interactive_Fiction
             if (input.KeyChar == 'a' || input.KeyChar == 'A')
             {
                 currentPage = int.Parse(splitPage[3]);
-                Console.Beep(125, 100);
+                Console.Beep(525, 100);
             }
             else if (input.KeyChar == 'b' || input.KeyChar == 'B')
             {
                 currentPage = int.Parse(splitPage[4]);
-                Console.Beep(100, 100);
+                Console.Beep(500, 100);
             }
             else
             {
