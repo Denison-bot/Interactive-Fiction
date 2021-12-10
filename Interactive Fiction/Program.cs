@@ -12,7 +12,6 @@ namespace Interactive_Fiction
         static void Main(string[] args)
         {
             DisplayTitleScreen();
-            MainMenu();
         }
 
         static int currentPage;
@@ -75,19 +74,49 @@ namespace Interactive_Fiction
             }
             else if (input.KeyChar == '2')
             {
-                LoadGame();
-                Gameplay();
+                if (!File.Exists(savePath))
+                {
+                    Console.WriteLine("Save file has been corrupted or does not exist");
+                    Console.ReadKey(true);
+                    
+                    DisplayTitleScreen();
+                    
+                }
+                else if (savePath == "")
+                {
+                    Console.WriteLine("No saved game");
+                    
+                    DisplayTitleScreen();
+
+                }
+                else
+                {
+                    LoadGame();
+                    Gameplay();
+                }
             }
             else if (input.KeyChar == '3')
             {
                 GameOver = true;
             }
-            
+            else
+            {
+                Console.WriteLine("please input valid character");
+                Console.ReadKey(true);
+                DisplayTitleScreen();                
+            }
+
         }
 
         static void SplitPage()
         {
             splitPage = story[currentPage].Split(splitChars);
+            if (splitPage[0] == "")
+            {
+                Console.WriteLine("Error: Page is blank");
+                Console.ReadKey(true);
+                MainMenu();
+            }
             splitLine = splitPage[0].Split('#');
         }
 
@@ -107,8 +136,6 @@ namespace Interactive_Fiction
                 }
                 Console.WriteLine();
             }
-
-            
 
             Console.WriteLine();
 
@@ -154,7 +181,6 @@ namespace Interactive_Fiction
             {
                 Console.Clear();
                 DisplayTitleScreen();
-                MainMenu();
             }
             else if (input.KeyChar == 'l' || input.KeyChar == 'L')
             {
@@ -166,12 +192,12 @@ namespace Interactive_Fiction
             {
                 Console.WriteLine("please input valid character");
                 Console.ReadKey(true);
-                Console.WriteLine();
             }
         }
 
         static void DisplayTitleScreen()
         {
+            Console.Clear();
             Console.WriteLine("");
             Console.WriteLine("   ▄▄▄▄▄   ▄███▄   █     ▄███▄   ▄█▄      ▄▄▄▄▀        ▄▄▄▄▀ ▄  █ ▄█    ▄   ▄███▄       █ ▄▄  ▄███▄   █▄▄▄▄   ▄▄▄▄▄   ████▄    ▄   ██   █         ██   ██▄       ▄   ▄███▄      ▄     ▄▄▄▄▀ ▄   █▄▄▄▄ ▄███▄       ");
             Console.WriteLine("  █     ▀▄ █▀   ▀  █     █▀   ▀  █▀ ▀▄ ▀▀▀ █        ▀▀▀ █   █   █ ██     █  █▀   ▀      █   █ █▀   ▀  █  ▄▀  █     ▀▄ █   █     █  █ █  █         █ █  █  █       █  █▀   ▀      █ ▀▀▀ █     █  █  ▄▀ █▀   ▀      ");
@@ -181,6 +207,7 @@ namespace Interactive_Fiction
             Console.WriteLine("                                                              ▀      █   ██               ▀            ▀                    █   ██   █              █           █▐           █   ██        ▀▀▀   ▀                ");
             Console.WriteLine("                                                                                                                                    ▀              ▀            ▐                                                 ");
             Console.WriteLine("");
+            MainMenu();
         }
 
         static void Gameplay()
@@ -195,7 +222,7 @@ namespace Interactive_Fiction
                 Console.Clear();
                 if (story[currentPage] == story[14])
                 {
-                    GameOver = true;
+                    DisplayTitleScreen();                    
                 }
             }
         }
