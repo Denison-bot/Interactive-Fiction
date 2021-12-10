@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Security.Cryptography;
 
 namespace Interactive_Fiction
 {
@@ -11,22 +12,72 @@ namespace Interactive_Fiction
     {
         static void Main(string[] args)
         {
-            DisplayTitleScreen();
+            //GenerateHash();
+            //CheckHash();
+            InitStory();
         }
 
         static int currentPage;
-        static string[] story = new string[17]; 
-        static bool GameOver = false; 
+        static string[] story = new string[17];
+        static bool gameOver = false;
         static string[] splitPage;
         static string[] splitLine;
         static char[] splitChars = { ';' }; // splits story text
         static string savePath = @"SaveData.txt"; // last save data
         static string storyFile = @"story.txt"; // story stored in .txt
-        static bool failState;
+
+        //attempted to use hash codes, but I ran out of time
+
+        //static string StorySource = File.ReadAllText(storyFile); 
+        //static byte[] source;
+        //static byte[] hash;
+        
+        //static void GenerateHash()
+        //{
+        //    //create byte array
+        //    source = ASCIIEncoding.ASCII.GetBytes(StorySource);
+
+        //    //compute hash
+        //    hash = new MD5CryptoServiceProvider().ComputeHash(source);
+        //}
+
+        //static void CheckHash()
+        //{
+        //    if (hash.ToString() != "06FCA1D358921624DFC2829894093F41")
+        //    {
+        //        Console.Clear();
+        //        Console.WriteLine("Story file has been altered or corrupted");
+        //        Console.WriteLine("Press any key to continue");
+        //        Console.ReadKey(true);
+        //    }
+        //}
 
         static void InitStory()
         {
-            story = File.ReadAllLines(storyFile);
+            if (!File.Exists(storyFile))
+            {
+                Console.Clear();
+                Console.WriteLine("Story file has been corrupted or does not exist");
+                Console.WriteLine("Console will now close");
+                Console.ReadKey(true);
+                gameOver = true;
+            }
+
+            else
+            {
+                story = File.ReadAllLines(storyFile);
+                if (File.ReadAllText(storyFile) == "")
+                {
+                    Console.Clear();
+                    Console.WriteLine("Story data is blank");
+                    Console.WriteLine("Console will now close");
+                    Console.ReadKey(true);                    
+                }
+                else
+                {
+                    DisplayTitleScreen();
+                }
+            }               
         }
 
         static void SaveGame()
@@ -44,7 +95,25 @@ namespace Interactive_Fiction
 
         static void LoadGame()
         {
-            currentPage = int.Parse(File.ReadAllText(savePath));
+            if (!File.Exists(savePath))
+            {
+                Console.Clear();
+                Console.WriteLine("Save file has been corrupted or does not exist");                
+                Console.ReadKey(true);
+                DisplayTitleScreen();
+            }
+            else if (File.ReadAllText(savePath) == "")
+            {
+                Console.Clear();
+                Console.WriteLine("No save data");
+                Console.WriteLine("Press any key to continue");
+                Console.ReadKey(true);
+                DisplayTitleScreen();
+            }
+            else
+            {
+                currentPage = int.Parse(File.ReadAllText(savePath));
+            }
         }
 
         static void MainMenu()
@@ -69,36 +138,18 @@ namespace Interactive_Fiction
             input = Console.ReadKey(true);
 
             if (input.KeyChar == '1')
-            {
+            {                
                 currentPage = 0;
                 Gameplay();
             }
             else if (input.KeyChar == '2')
             {
-                if (!File.Exists(savePath))
-                {
-                    Console.WriteLine("Save file has been corrupted or does not exist");
-                    Console.ReadKey(true);
-                    
-                    DisplayTitleScreen();
-                    
-                }
-                else if (savePath == "")
-                {
-                    Console.WriteLine("No saved game");
-                    
-                    DisplayTitleScreen();
-
-                }
-                else
-                {
-                    LoadGame();
-                    Gameplay();
-                }
+                LoadGame();
+                Gameplay();
             }
             else if (input.KeyChar == '3')
             {
-                GameOver = true;
+                gameOver = true;
             }
             else
             {
@@ -115,10 +166,15 @@ namespace Interactive_Fiction
             if (splitPage[0] == "")
             {
                 Console.WriteLine("Error: Page is blank");
+                Console.WriteLine("Console will now close");
                 Console.ReadKey(true);
-                MainMenu();
+                Environment.Exit(0);
             }
-            splitLine = splitPage[0].Split('#');
+           else
+            {
+                splitLine = splitPage[0].Split('#');
+            }
+                
         }
 
         static void DisplayStory()
@@ -152,11 +208,6 @@ namespace Interactive_Fiction
             Console.WriteLine("-------------------------------------");
         }
 
-        static void ErrorState()
-        {
-            
-        }
-
         static void TakeInput()
         {
             //read input
@@ -170,7 +221,11 @@ namespace Interactive_Fiction
             //check input
             if (input.KeyChar == 's' || input.KeyChar == 'S')
             {
+                
                 SaveGame();
+                Console.Clear();
+                Console.WriteLine("Game saved");
+                Console.ReadKey(true);
                 Console.Beep(575, 100);
             }
             else if (input.KeyChar == 'a' || input.KeyChar == 'A')
@@ -196,7 +251,9 @@ namespace Interactive_Fiction
             }
             else
             {
-                Console.WriteLine("please input valid character");
+                Console.Clear();
+                Console.WriteLine("Please input valid character");
+                Console.WriteLine("Press any key to continue");
                 Console.ReadKey(true);
             }
         }
@@ -219,8 +276,8 @@ namespace Interactive_Fiction
         static void Gameplay()
         {
             Console.Clear();
-            InitStory();
-            while (GameOver == false)
+
+            while (gameOver == false)
             {
                 SplitPage();
                 DisplayStory();
