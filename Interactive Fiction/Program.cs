@@ -22,6 +22,7 @@ namespace Interactive_Fiction
         static char[] splitChars = { ';' }; // splits story text
         static string savePath = @"SaveData.txt"; // last save data
         static string storyFile = @"story.txt"; // story stored in .txt
+        static bool failState;
 
         static void InitStory()
         {
@@ -149,6 +150,11 @@ namespace Interactive_Fiction
             Console.WriteLine("Press L to load last save");
             Console.WriteLine("Press P to return to the main menu");
             Console.WriteLine("-------------------------------------");
+        }
+
+        static void ErrorState()
+        {
+            
         }
 
         static void TakeInput()
